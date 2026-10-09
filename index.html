@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rowel M. Mondigo | Professional Resume & Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#090d16',
+                        cardbg: '#131c31',
+                        accent: 'var(--accent-color, #38bdf8)',
+                        accentHover: 'var(--accent-hover, #0ea5e9)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+        }
+        .theme-blue { --accent-color: #38bdf8; --accent-hover: #0ea5e9; }
+        .theme-green { --accent-color: #34d399; --accent-hover: #10b981; }
+        .theme-gold { --accent-color: #fbbf24; --accent-hover: #f59e0b; }
+        
+        .hero-bg {
+            background-image: linear-gradient(to bottom, rgba(9, 13, 22, 0.88), rgba(9, 13, 22, 0.94)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .cert-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+<body id="body-theme" class="theme-blue hero-bg text-slate-100 font-sans antialiased h-full overflow-x-hidden selection:bg-accent selection:text-slate-900 flex flex-col justify-between relative">
+
+    <!-- Toast Notification for Copy -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-800 text-white px-4 py-2.5 rounded-xl border border-slate-700 shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 text-xs font-medium z-50">
+        <i class="fa-solid fa-circle-check text-accent"></i> <span id="toast-msg">Copied to clipboard!</span>
+    </div>
+
+    <!-- Fullscreen Certificate Zoom Modal -->
+    <div id="cert-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+            <button onclick="closeModal()" class="absolute -top-10 right-0 text-slate-300 hover:text-white text-xl p-2 focus:outline-none">
+                <i class="fa-solid fa-xmark"></i> Close
+            </button>
+            <img id="modal-img" src="" alt="Certificate Preview" class="max-w-full max-h-[70vh] object-contain rounded-xl border border-slate-700 shadow-2xl mb-3">
+            <p id="modal-title" class="text-white text-base font-bold text-center"></p>
+            <p id="modal-desc" class="text-accent text-xs mt-1 text-center font-medium"></p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="bg-darkbg/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="text-lg font-bold tracking-wider text-accent transition-colors duration-300">MyResume</span>
+            
+            <div class="flex items-center gap-4">
+                <!-- Color Theme Switcher -->
+                <div class="hidden sm:flex items-center gap-1.5 bg-cardbg p-1 rounded-lg border border-slate-700/60">
+                    <button onclick="setTheme('theme-blue')" class="w-4 h-4 rounded-full bg-sky-400 hover:scale-110 transition" title="Ocean Blue"></button>
+                    <button onclick="setTheme('theme-green')" class="w-4 h-4 rounded-full bg-emerald-400 hover:scale-110 transition" title="Emerald Green"></button>
+                    <button onclick="setTheme('theme-gold')" class="w-4 h-4 rounded-full bg-amber-400 hover:scale-110 transition" title="Executive Gold"></button>
+                </div>
+
+                <!-- Admin Lock / Unlock Button -->
+                <button onclick="toggleAdminMode()" id="admin-lock-btn" class="bg-cardbg hover:bg-slate-800 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-medium flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-lock text-accent"></i> <span id="lock-text">Owner Mode</span>
+                </button>
+
+                <div class="hidden sm:flex items-center gap-2 text-sm bg-cardbg/80 px-3 py-1.5 rounded-full border border-slate-700/60">
+                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                    <span class="text-slate-300 text-xs font-medium">Ready for Full-Time Remote Roles</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Single Page Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow relative z-10">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left Column: Intro & Detailed Contact Info -->
+            <div class="lg:col-span-7 flex flex-col justify-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/40 border border-slate-800 text-accent text-xs font-semibold mb-4 w-max uppercase tracking-wider">
+                    <span>Call Center, Financial Services & Tech Professional</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-3 text-white">
+                    Hi, I'm <span class="text-accent transition-colors duration-300">Rowel M. Mondigo</span>
+                </h1>
+                <p class="text-lg font-medium text-slate-300 mb-3">
+                    Over 1 Decade of Expertise in Custom Web Building, Loan Processing & High-Volume Sales.
+                </p>
+                <p class="text-slate-400 text-sm sm:text-base mb-6 leading-relaxed">
+                    Results-driven professional specializing in custom web solutions, loan processing, outbound sales, appointment setting, and digital content creation. Recognized for handling 200+ daily interactions with strict data compliance. Click the sections below to explore my credentials.
+                </p>
+                
+                <!-- Detailed Contact Badges -->
+                <div class="flex flex-wrap gap-3 text-xs sm:text-sm mb-6">
+                    <button onclick="copyToClipboard('johnmondigorowel@gmail.com', 'Email copied!')" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm cursor-pointer">
+                        <i class="fa-solid fa-envelope text-accent"></i> johnmondigorowel@gmail.com
+                    </button>
+                    <button onclick="copyToClipboard('09352953084', 'Phone number copied!')" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm cursor-pointer">
+                        <i class="fa-solid fa-phone text-accent"></i> 0935-295-3084
+                    </button>
+                    <a href="https://t.me/kafuzimo" target="_blank" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm">
+                        <i class="fa-brands fa-telegram text-accent"></i> @kafuzimo
+                    </a>
+                    <a href="https://wa.me/639217339529" target="_blank" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-accent"></i> +639217339529
+                    </a>
+                    <a href="https://www.linkedin.com" target="_blank" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm">
+                        <i class="fa-brands fa-linkedin text-accent"></i> LinkedIn
+                    </a>
+                    <a href="https://www.onlinejobs.ph" target="_blank" class="flex items-center gap-2 bg-cardbg/90 hover:bg-slate-800 px-3.5 py-2 rounded-lg border border-slate-700/80 hover:border-accent transition text-slate-300 hover:text-white shadow-sm">
+                        <i class="fa-solid fa-briefcase text-accent"></i> Onlinejobs.ph
+                    </a>
+                </div>
+
+                <!-- Employer Resume Download / Upload Box -->
+                <div class="bg-cardbg/60 border border-slate-700/70 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                            <i class="fa-solid fa-file-pdf text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Official Employer Resume Copy</h4>
+                            <p class="text-[11px] text-slate-400" id="resume-status-text">PDF Document available for review</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <a id="download-resume-btn" href="#" download="Rowel_Mondigo_Resume.pdf" onclick="downloadResume(event)" class="flex-1 sm:flex-none text-center bg-accent text-slate-900 font-bold px-4 py-2 rounded-lg text-xs hover:bg-accentHover transition shadow">
+                            <i class="fa-solid fa-download mr-1"></i> Download Copy
+                        </a>
+                        <!-- Owner Upload Resume Controls -->
+                        <div id="owner-resume-controls" class="hidden">
+                            <label for="resume-file-input" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg text-xs font-medium border border-slate-600 transition flex items-center gap-1">
+                                <i class="fa-solid fa-upload text-accent"></i> Upload PDF
+                            </label>
+                            <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx" class="hidden" onchange="uploadResume(event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Circular Executive Profile Picture Frame -->
+            <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                <div class="relative w-48 h-48 sm:w-60 sm:h-60 rounded-full p-1.5 bg-gradient-to-tr from-accent to-slate-700 shadow-2xl transition-all duration-300 group">
+                    <div class="w-full h-full rounded-full bg-cardbg overflow-hidden flex items-center justify-center border-2 border-slate-700 relative">
+                        <img id="profile-pic" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60" alt="Rowel M. Mondigo" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Online / Ready Status Badge -->
+                    <span class="absolute bottom-3 right-4 w-5 h-5 bg-emerald-500 border-2 border-darkbg rounded-full shadow-md animate-pulse" title="Ready to Hire"></span>
+                </div>
+                
+                <!-- Owner-only upload button for profile pic -->
+                <div id="owner-pic-controls" class="hidden mt-4 flex gap-2">
+                    <label for="image-upload" class="cursor-pointer bg-cardbg hover:bg-slate-800 border border-slate-700 hover:border-accent text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition shadow-md">
+                        <i class="fa-solid fa-upload text-accent"></i> Upload File
+                    </label>
+                    <label for="camera-upload-pic" class="cursor-pointer bg-cardbg hover:bg-slate-800 border border-slate-700 hover:border-accent text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition shadow-md">
+                        <i class="fa-solid fa-camera text-accent"></i> Camera
+                    </label>
+                </div>
+                <input type="file" id="image-upload" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                <input type="file" id="camera-upload-pic" accept="image/*" capture="environment" class="hidden" onchange="handleImageUpload(event)">
+            </div>
+
+        </div>
+
+        <!-- Interactive Information Hub -->
+        <div class="mt-8 pt-6 border-t border-slate-800/80">
+            <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-bars-progress text-accent"></i> Interactive Information Hub <span class="text-xs font-normal text-slate-400">(Click categories to expand/collapse details)</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Experience Dropdown Card -->
+                <div class="bg-cardbg/90 backdrop-blur-md rounded-xl border border-slate-700/80 overflow-hidden transition hover:border-slate-600">
+                    <button onclick="toggleSection('exp-content', 'exp-icon')" class="w-full px-5 py-4 text-left flex items-center justify-between bg-slate-800/40 hover:bg-slate-800/80 transition">
+                        <span class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-briefcase text-accent"></i> Professional Experience
+                        </span>
+                        <i id="exp-icon" class="fa-solid fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div id="exp-content" class="hidden px-5 py-4 space-y-3 text-xs text-slate-300 border-t border-slate-700/50 bg-cardbg/95">
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Tech & AI Creator / Independent Dev</strong>
+                            <span class="text-slate-400">Present</span>
+                            <p class="text-slate-400">Developing custom web solutions, HTML/Java logic for POS systems; editing AI videos via CapCut (Kafuzi channel).</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Clear Nexus Inc. (USA Campaign)</strong>
+                            <span class="text-slate-400">Feb 2025 – July 2026</span>
+                            <p class="text-slate-400">Loan Officer / Sales Representative & Loan Specialist. Managed end-to-end loan processing & VOE verifications.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Xerosoft Management Center</strong>
+                            <span class="text-slate-400">Aug 2022 – Apr 2025</span>
+                            <p class="text-slate-400">Outbound Sales Rep & Admin Support (The Newton Group, AAA Atlas Bail Bonds, SiriusXM). 200+ daily interactions.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Eastwest BPO</strong>
+                            <span class="text-slate-400">Oct 2021 – Jul 2022</span>
+                            <p class="text-slate-400">Telemarketer & Appointment Setter for US Healthcare (Medicare) and Auto Insurance.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">True Renewable Energy</strong>
+                            <span class="text-slate-400">Feb 2021 – Apr 2021</span>
+                            <p class="text-slate-400">Inbound & Outbound Representative for clean energy initiatives.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Tru29 (UK Campaign)</strong>
+                            <span class="text-slate-400">Jul 2020 – Sep 2021</span>
+                            <p class="text-slate-400">Outbound Sales Representative. Top 1 Agent for 5 consecutive months on appliance protection.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-3">
+                            <strong class="text-white block">Synerdiance Inc. & Sage One Global</strong>
+                            <span class="text-slate-400">Feb 2016 – Mar 2020</span>
+                            <p class="text-slate-400">Outbound Sales Rep handling Medicare, insurance, and global health/wellness campaigns.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Competencies & Tools Dropdown Card -->
+                <div class="bg-cardbg/90 backdrop-blur-md rounded-xl border border-slate-700/80 overflow-hidden transition hover:border-slate-600">
+                    <button onclick="toggleSection('skills-content', 'skills-icon')" class="w-full px-5 py-4 text-left flex items-center justify-between bg-slate-800/40 hover:bg-slate-800/80 transition">
+                        <span class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-screwdriver-wrench text-accent"></i> Core Competencies
+                        </span>
+                        <i id="skills-icon" class="fa-solid fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div id="skills-content" class="hidden px-5 py-4 space-y-3 text-xs text-slate-300 border-t border-slate-700/50 bg-cardbg/95">
+                        <div>
+                            <strong class="text-accent block mb-1">Financial & Admin</strong>
+                            <p class="text-slate-400">Loan Processing, VOE, Contract Collection, Document Auditing, Collections, CRM Management.</p>
+                        </div>
+                        <div class="pt-1">
+                            <strong class="text-accent block mb-1">Sales & Outreach</strong>
+                            <p class="text-slate-400">Outbound Sales, B2B/B2C Appointment Setting, Cold Calling, Lead Qualification, Objection Handling.</p>
+                        </div>
+                        <div class="pt-1">
+                            <strong class="text-accent block mb-1">Platforms & CRMs</strong>
+                            <p class="text-slate-400">Salesforce, ViciDial, The Work Number, HubSpot, Google Workspace, MS Excel, CapCut PC.</p>
+                        </div>
+                        <div class="pt-1">
+                            <strong class="text-accent block mb-1">Digital & Tech (Custom Web & Aspiring)</strong>
+                            <p class="text-slate-400">Custom Web Building, AI Video Editing, Scriptwriting, HTML, Java, POS System Concepts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements & Education Dropdown Card -->
+                <div class="bg-cardbg/90 backdrop-blur-md rounded-xl border border-slate-700/80 overflow-hidden transition hover:border-slate-600">
+                    <button onclick="toggleSection('ach-content', 'ach-icon')" class="w-full px-5 py-4 text-left flex items-center justify-between bg-slate-800/40 hover:bg-slate-800/80 transition">
+                        <span class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-award text-accent"></i> Key Achievements & Education
+                        </span>
+                        <i id="ach-icon" class="fa-solid fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div id="ach-content" class="hidden px-5 py-4 space-y-3 text-xs text-slate-300 border-t border-slate-700/50 bg-cardbg/95">
+                        <div class="border-l-2 border-accent pl-2">
+                            <strong class="text-white block">Top 1 Agent (2020)</strong>
+                            <p class="text-slate-400">Ranked #1 overall on UK Appliance Protection campaign for 5 consecutive months.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-2">
+                            <strong class="text-white block">Top 10 Performer (2023)</strong>
+                            <p class="text-slate-400">SiriusXM Satellite Radio campaign for outstanding sales performance.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-2">
+                            <strong class="text-white block">Top Performer – Appointment Setting</strong>
+                            <p class="text-slate-400">Timeshare exit campaigns (The Newton Group) and US insurance campaigns.</p>
+                        </div>
+                        <div class="border-l-2 border-accent pl-2">
+                            <strong class="text-white block">Education</strong>
+                            <p class="text-slate-400">BS in Information Technology (Undergraduate) - University of Eastern Philippines (2010–2014)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Certificates & Recognitions Hub -->
+        <div class="mt-8 pt-6 border-t border-slate-800/80">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-certificate text-accent"></i> Certificates & Work Recognitions <span class="text-xs font-normal text-slate-400">(Clean Certificate View)</span>
+                </h2>
+                <!-- Owner upload controls for certificates -->
+                <div id="owner-cert-controls" class="hidden flex gap-2">
+                    <label for="cert-file-input" class="cursor-pointer bg-accent text-slate-900 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-accentHover transition flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-plus"></i> Upload Cert
+                    </label>
+                    <label for="cert-camera-input" class="cursor-pointer bg-accent text-slate-900 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-accentHover transition flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-camera"></i> Take Photo
+                    </label>
+                </div>
+                <input type="file" id="cert-file-input" accept="image/*" class="hidden" onchange="processCertificateSmart(event)">
+                <input type="file" id="cert-camera-input" accept="image/*" capture="environment" class="hidden" onchange="processCertificateSmart(event)">
+            </div>
+
+            <!-- Certificates Grid Container -->
+            <div id="certificates-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <!-- Certificates load here dynamically -->
+            </div>
+        </div>
+
+        <!-- Call to Action Banner -->
+        <div class="mt-8 bg-cardbg/90 backdrop-blur-md border border-slate-700/80 rounded-xl p-6 text-center flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="text-left">
+                <h3 class="text-lg font-bold text-white">Ready to hire or interview?</h3>
+                <p class="text-xs text-slate-400">Get in touch via email or instant messaging for prompt response.</p>
+            </div>
+            <a href="mailto:johnmondigorowel@gmail.com" class="bg-accent text-slate-900 font-bold px-6 py-2.5 rounded-lg text-sm hover:bg-accentHover transition shadow-lg whitespace-nowrap">
+                <i class="fa-solid fa-paper-plane mr-2"></i> Contact Me Now
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 border-t border-slate-800/80 text-center text-slate-500 text-xs relative z-10 bg-darkbg/90">
+        <p>&copy; 2026 Rowel M. Mondigo. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript & Smart Auto-Detect Logic -->
+    <script>
+        function toggleSection(contentId, iconId) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function setTheme(themeClass) {
+            const body = document.getElementById('body-theme');
+            body.className = themeClass + " hero-bg text-slate-100 font-sans antialiased h-full overflow-x-hidden selection:bg-accent selection:text-slate-900 flex flex-col justify-between relative";
+            localStorage.setItem('rowel_portfolio_theme', themeClass);
+        }
+
+        function copyToClipboard(text, message) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(message);
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        let isOwner = false;
+        function toggleAdminMode() {
+            if (!isOwner) {
+                const pin = prompt("Ilagay ang iyong Owner PIN para mag-edit:");
+                if (pin === "1992") {
+                    isOwner = true;
+                    document.getElementById('lock-text').innerText = "Owner Mode: ON";
+                    document.getElementById('owner-pic-controls').classList.remove('hidden');
+                    document.getElementById('owner-cert-controls').classList.remove('hidden');
+                    document.getElementById('owner-resume-controls').classList.remove('hidden');
+                    showToast("Owner mode activated!");
+                    loadCertificates();
+                } else if (pin !== null) {
+                    alert("Maling PIN!");
+                }
+            } else {
+                isOwner = false;
+                document.getElementById('lock-text').innerText = "Owner Mode";
+                document.getElementById('owner-pic-controls').classList.add('hidden');
+                document.getElementById('owner-cert-controls').classList.add('hidden');
+                document.getElementById('owner-resume-controls').classList.add('hidden');
+                showToast("Owner mode locked!");
+                loadCertificates();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('rowel_portfolio_theme');
+            if (savedTheme) setTheme(savedTheme);
+
+            const savedImage = localStorage.getItem('rowel_profile_pic');
+            if (savedImage) document.getElementById('profile-pic').src = savedImage;
+
+            checkSavedResume();
+            loadCertificates();
+        });
+
+        function uploadResume(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                localStorage.setItem('rowel_resume_file', reader.result);
+                localStorage.setItem('rowel_resume_name', file.name);
+                checkSavedResume();
+                showToast("Resume uploaded successfully!");
+            }
+            if (file) reader.readAsDataURL(file);
+        }
+
+        function checkSavedResume() {
+            const savedName = localStorage.getItem('rowel_resume_name');
+            if (savedName) {
+                document.getElementById('resume-status-text').innerText = "Available: " + savedName;
+            }
+        }
+
+        function downloadResume(event) {
+            const savedFile = localStorage.getItem('rowel_resume_file');
+            if (!savedFile) {
+                event.preventDefault();
+                alert("Wala pang na-upload na resume file ng may-ari. Gamitin ang Owner Mode para mag-upload.");
+            } else {
+                event.target.href = savedFile;
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const base64String = reader.result;
+                document.getElementById('profile-pic').src = base64String;
+                localStorage.setItem('rowel_profile_pic', base64String);
+                showToast('Profile picture updated successfully!');
+            }
+            if (file) reader.readAsDataURL(file);
+        }
+
+        // Smart Auto-Detect / Dynamic Categorization based on specific inputs
+        function processCertificateSmart(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const base64String = reader.result;
+                
+                const titleInput = prompt("Ilagay ang pamagat ng Certificate (Hal: Certificate of Appreciation / Soundstage Performance):", "Certificate of Appreciation");
+                if (!titleInput) return;
+
+                const detailInput = prompt("Ilagay ang detalye / KPI score / Ranggo (Hal: Top 2 agent with 99.9% Total KPI Score o Soundstage Performance):", "Awarded performance recognition");
+
+                let badge = "Recognition";
+                const lower = (titleInput + " " + detailInput).toLowerCase();
+                
+                if (lower.includes('top 1') || lower.includes('rank 1')) {
+                    badge = "Top 1 Agent";
+                } else if (lower.includes('top 2') || lower.includes('rank 2')) {
+                    badge = "Top 2 KPI Award";
+                } else if (lower.includes('top 4')) {
+                    badge = "Top 4 Performer";
+                } else if (lower.includes('top 8')) {
+                    badge = "Top 8 Performer";
+                } else if (lower.includes('top 10') || lower.includes('top performer')) {
+                    badge = "Top Performer";
+                } else if (lower.includes('soundstage') || lower.includes('performance')) {
+                    badge = "Soundstage Award";
+                } else if (lower.includes('eval') || lower.includes('weekly')) {
+                    badge = "Weekly Evaluation";
+                } else {
+                    badge = "Work Recognition";
+                }
+
+                let certs = JSON.parse(localStorage.getItem('rowel_certificates') || "[]");
+                certs.push({
+                    title: titleInput,
+                    description: detailInput || titleInput,
+                    badge: badge,
+                    url: base64String
+                });
+
+                localStorage.setItem('rowel_certificates', JSON.stringify(certs));
+                loadCertificates();
+                showToast("Certificate added & categorized successfully!");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadCertificates() {
+            const grid = document.getElementById('certificates-grid');
+            grid.innerHTML = "";
+            let certs = JSON.parse(localStorage.getItem('rowel_certificates') || "[]");
+
+            if (certs.length === 0) {
+                if (!isOwner) {
+                    grid.innerHTML = `<p class="col-span-full text-slate-500 text-xs italic text-center py-4">No certificates uploaded yet.</p>`;
+                }
+                return;
+            }
+
+            certs.forEach((cert, index) => {
+                const badgeText = cert.badge || "Recognition";
+                const descText = cert.description || cert.title;
+                
+                let badgeColor = "bg-sky-500/25 text-sky-300 border-sky-500/30";
+                if (badgeText.includes("Top 1")) badgeColor = "bg-amber-500/25 text-amber-300 border-amber-500/30";
+                else if (badgeText.includes("Top 2")) badgeColor = "bg-orange-500/25 text-orange-300 border-orange-500/30";
+                else if (badgeText.includes("Top 4") || badgeText.includes("Top 8")) badgeColor = "bg-purple-500/25 text-purple-300 border-purple-500/30";
+                else if (badgeText.includes("Soundstage")) badgeColor = "bg-indigo-500/25 text-indigo-300 border-indigo-500/30";
+                else if (badgeText.includes("Evaluation")) badgeColor = "bg-emerald-500/25 text-emerald-300 border-emerald-500/30";
+
+                const card = document.createElement('div');
+                card.className = "cert-card bg-cardbg/90 rounded-xl border border-slate-700/80 overflow-hidden relative shadow-md cursor-pointer";
+                card.innerHTML = `
+                    <div class="h-28 sm:h-36 overflow-hidden bg-slate-900 flex items-center justify-center relative" onclick="openModal('${cert.url}', '${cert.title}', '${descText}')">
+                        <img src="${cert.url}" alt="${cert.title}" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full border backdrop-blur-md ${badgeColor}">${badgeText}</span>
+                    </div>
+                    <div class="p-2.5 flex items-center justify-between bg-slate-800/60" onclick="openModal('${cert.url}', '${cert.title}', '${descText}')">
+                        <div class="truncate mr-2">
+                            <p class="text-xs font-bold text-slate-200 truncate">${cert.title}</p>
+                            <p class="text-[10px] text-accent truncate">${descText}</p>
+                        </div>
+                        ${isOwner ? `<button onclick="event.stopPropagation(); deleteCertificate(${index})" class="text-red-400 hover:text-red-300 text-xs p-1" title="Delete"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(url, title, desc) {
+            document.getElementById('modal-img').src = url;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('cert-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('cert-modal').classList.add('hidden');
+        }
+
+        function deleteCertificate(index) {
+            if (confirm("Sigurado ka bang gusto mong tanggalin ang certificate na ito?")) {
+                let certs = JSON.parse(localStorage.getItem('rowel_certificates') || "[]");
+                certs.splice(index, 1);
+                localStorage.setItem('rowel_certificates', JSON.stringify(certs));
+                loadCertificates();
+                showToast("Certificate deleted.");
+            }
+        }
+    </script>
+</body>
+</html>
